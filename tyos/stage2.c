@@ -51,10 +51,7 @@ void prompt()
       read (cmd);		        /* Read user command. */
 
       /* Process user command. */
-      if (compare(cmd, TIME_CMD)){
-        time();
-        print(nl);
-      }
+      if (compare(cmd, TIME_CMD)){time(); print(nl);}    /*Command Time*/
       else if (compare(cmd, COLOR_CMD)){
         color(cor[0]);
         cor[0]++;
@@ -62,10 +59,11 @@ void prompt()
         print(nl);
         printnl ("Prompt color updated");
       }
-      else if (compare(cmd, HELP_CMD)) help();       /* Command help. */
-      else if (compare(cmd, QUIT_CMD))	halt();  /* Command quit. */
+      else if (compare(cmd, GIVEUP_CMD))  giveup();      /* Command GiveUP. */
+      else if (compare(cmd, HELP_CMD))  help();          /* Command help. */
+      else if (compare(cmd, QUIT_CMD))  halt();          /* Command quit. */
       else{
-	      print (cmd);		        /* Unkown command. */
+	      print (cmd);		                                /* Unkown command. */
 	      printnl (NOT_FOUND);
 	    }
     }

@@ -92,9 +92,13 @@ void __attribute__((naked, fastcall)) color (char atual);
 
 /* Give UP  -> Print ASCII ART. */
 
+void giveup();
+
 /* Halt     -> Logical END. */
 
 void halt();
+
+void imprime();
 
 /* Define functions' call. 
 *  TIME_CMD 
