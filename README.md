@@ -3,8 +3,7 @@
  ==============================
   
   The contents of this directory are part of soii21-rh_OS,
-  Copyright (c) 2021, Hiago de Franco Moreira <https://github.com/hiagofranco>
-  Copyright (c) 2021, Renan Peres Martins <https://github.com/RenanPeres>
+  Copyright (c) 2021, Hiago de Franco Moreira <https://github.com/hiagofranco> and Renan Peres Martins <https://github.com/RenanPeres>
 
   This piece of software is a derivative work of SYSeg, by Monaco F. J.
   SYSeg is distributed under the license GNU GPL v3, and is available
