@@ -1,14 +1,15 @@
-/* <file> - <One-line note about this file>
+/* mbr.c- Included Core Functions stored on MBR
  
-   Copyright (c) <YEAR>, <AUTHOR> 
+   Copyright (c) 2021, Hiago de Franco Moreira <https://github.com/hiagofranco>
+   Copyright (c) 2021, Renan Peres Martins <https://github.com/RenanPeres>
 
    This piece of software is a derivative work of SYSeg, by Monaco F. J.
    SYSeg is distributed under the license GNU GPL v3, and is available
    at the official repository https://www.gitlab.com/monaco/syseg.
 
-   This file is part of <PROJECT>.
+   This file is part of soii21-rh_OS.
 
-   <PROJECT> is free software: you can redistribute it and/or modify
+   soii21-rh_OS is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
@@ -25,6 +26,7 @@
 
 
 #include <mbr.h>
+
 
 /* A string consisting of the CRLF sequence.
    Used by the function-like macro printnl. */
@@ -51,8 +53,8 @@ __asm__ volatile
  "        ret                         ;" /* Return from this function.         */
 
 :                        
-: "b" (buffer)      /* Var. buffer put in bx, referenced as str .*/
-: "ax", "cx", "si"        /* Additional clobbered registers         .  */
+: "b" (buffer)                           /* Var. buffer put in bx, referenced as str .*/
+: "ax", "cx", "si"                       /* Additional clobbered registers         .  */
  );
 }
 
@@ -69,7 +71,7 @@ void __attribute__((naked, fastcall)) clear (void)
      " mov $0x184f, %%dx                 ;" /* Upper-right corner.            */
      " int $0x10                         ;" /* Call video BIOS service.       */
      " ret                                " /* Return from function. */
-     ::: "ax", "bx", "cx", "dx"		    /* Additional clobbered registers.*/
+     ::: "ax", "bx", "cx", "dx"		          /* Additional clobbered registers.*/
      );
 
 }
@@ -110,8 +112,8 @@ void __attribute__((fastcall, naked)) read (char *buffer)
      "   ret                           " /* Return from function             */
      
      :
-     : "b" (buffer) 	          /* Ask gcc to store buffer in %bx          */
-     : "ax",  "cx", "si" 	  /* Aditional clobbered registers.          */
+     : "b" (buffer) 	                   /* Ask gcc to store buffer in %bx          */
+     : "ax",  "cx", "si" 	               /* Aditional clobbered registers.          */
      );
 
   
@@ -131,13 +133,15 @@ void __attribute__((fastcall, naked)) read (char *buffer)
 
 } */
 
-/* Show the system Time by RTC BIOS interupt */
+
+
+/* Read system BIOS date and time and print formated buffer on screen */
 
 int __attribute__((fastcall, naked)) time (void)
 {
   __asm__ volatile
     (
-      " mov $0x04,  %%ah  ;"
+      " mov $0x04,  %%ah  ;"      /* Selected 'Read System' -> Date */
       " int $0x1A         ;"
       " mov	$0x0e,  %%ah  ;"
 
