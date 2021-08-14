@@ -1,5 +1,5 @@
 
- Your project name
+ Exercícios Sistemas Operacionais II - 2021.1
  ==============================
   
  Please, edit this file to fit your own project's details.
