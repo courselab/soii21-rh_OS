@@ -1,6 +1,7 @@
-/* <file> - <One-line note about this file>
+/* main.c - Prompt looping source file
  
-   Copyright (c) <YEAR>, <AUTHOR> 
+   Copyright (c) 2021, Hiago de Franco Moreira <https://github.com/hiagofranco>
+   Copyright (c) 2021, Renan Peres Martins <https://github.com/RenanPeres>
 
    This piece of software is a derivative work of SYSeg, by Monaco F. J.
    SYSeg is distributed under the license GNU GPL v3, and is available
@@ -40,18 +41,18 @@ int main()
   while (1)
     {
   
-      print (PROMPT);		        /* Show prompt. */
+      print (PROMPT);		                                  /* Show prompt. */
 
-      read (cmd);		        /* Read user command. */
+      read (cmd);		                                      /* Read user command. */
 
       /* Process user command. */
-      if (compare(cmd, TIME_CMD)){time(); print(nl);}
-//      else if (compare(cmd, HELP_CMD)) help();       /* Command help. */
-      else if (compare(cmd, QUIT_CMD))	quit();  /* Command quit. */
+      if (compare(cmd, TIME_CMD)){time(); print(nl);}     /* Command time */
+//      else if (compare(cmd, HELP_CMD)) help();          /* Command help. */
+      else if (compare(cmd, QUIT_CMD))	quit();           /* Command quit. */
       else{
-	  print (cmd);		        /* Unkown command. */
-	  printnl (NOT_FOUND);
-	}
+        print (cmd);		                                  /* Unkown command. */
+        printnl (NOT_FOUND);
+	    }
     }
   
   return 0;
