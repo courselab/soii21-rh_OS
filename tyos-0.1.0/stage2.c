@@ -23,18 +23,43 @@
 */
 
 
-
 #include <tyos.h>
 
-void halt()
+void prompt();
+
+void __attribute__((naked)) init()
+{
+  printnl ("Second stage loaded sucessuflly.");
+
+  prompt();
+  halt();			/* Halt the system. */
+}
+
+void prompt()
 {
 
-  printnl ("System halted");
-  __asm__ volatile
-    (
-     "loop%=:           ;"
-     "        hlt       ;"
-     "        jmp loop%=;"
-     :::
-     );
+  printnl ("Looping");
+  char cmd[BUFFER_MAX_LENGTH];
+  /* Main loop. */
+  
+  while (1)
+    {
+  
+      print (PROMPT);		        /* Show prompt. */
+
+      read (cmd);		        /* Read user command. */
+
+      /* Process user command. */
+      if (compare(cmd, TIME_CMD)){time(); print(nl);}
+      else if (compare(cmd, HELP_CMD)) help();       /* Command help. */
+//      else if (compare(cmd, GIVEUP_CMD)) give_up();
+      else if (compare(cmd, QUIT_CMD))	halt();  /* Command quit. */
+      else{
+	      print (cmd);		        /* Unkown command. */
+	      printnl (NOT_FOUND);
+	    }
+    }
+  return;
+
 }
+

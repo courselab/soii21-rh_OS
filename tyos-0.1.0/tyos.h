@@ -27,6 +27,8 @@
 #ifndef TOS_H
 #define TOS_H
 
+#include <extra.h>
+
 #define STAGE2_ADDR 0x7e00
 
 #define VIDEO_MEMORY 0xb8000
@@ -64,11 +66,38 @@ int __attribute__((fastcall, naked)) compare (char *s1, char *s2);
 
 void load_stage2_block();
 
-#define PROMPT ">"
+/* Give Up. */
+
+void __attribute__((naked)) give_up(void);
+
+/* Prompt. */
+
+//void prompt();
 
 /* Halt. */
 
 void halt();
+
+/* Help. */
+
+void __attribute__((naked)) help (void);
+
+/* Time. */
+
+int __attribute__((fastcall, naked)) time (void);
+
+
+#define  GIVEUP_CMD  "stop"
+
+#define  TIME_CMD "time"
+
+#define HELP_CMD "help"
+
+#define QUIT_CMD "quit"
+
+#define PROMPT ">"
+
+#define NOT_FOUND " not found"
 
 
 #endif
