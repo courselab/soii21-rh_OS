@@ -91,7 +91,7 @@ void __attribute__((naked)) help (void)
 {
   printnl (" ~~~~~~~~~~~~~~~~~~ Help Center: ~~~~~~~~~~~~~~~~~~ ");
   print(nl);
-  printnl ("WHat time is it?                              -> try: 'teste'");
+  printnl ("WHat time is it?                              -> try: 'time'");
   printnl ("Change my OS skin!                            -> try: 'color'");
   printnl ("I will GIVE UP! I DON'T LIKE THIS OS!         -> try: 'giveup'");
   printnl ("So tired, I need to sleep!                    -> try: 'quit'");
