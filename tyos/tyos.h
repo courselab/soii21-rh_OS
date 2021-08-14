@@ -86,7 +86,9 @@ int __attribute__((fastcall, naked)) compare (char *s1, char *s2);
 
 int __attribute__((fastcall, naked)) time (void);
 
-/* Color -> Change prompt color. */
+/* Color -> Change prompt color backgroung and font. */
+
+void __attribute__((naked, fastcall)) color (char atual);
 
 /* Give UP  -> Print ASCII ART. */
 

@@ -43,7 +43,7 @@ stage2_obj = stage2.o core.o tyos.o
 
 # Size of stage2 in 512-byte sectors
 
-STAGE2_SIZE=5
+STAGE2_SIZE= 10
 
 # Auxiliary variables to simplify this Makefile
 

@@ -38,11 +38,11 @@ void __attribute__((naked)) init()
 
 void prompt()
 {
+  char  cmd[BUFFER_MAX_LENGTH];
+  char cor[1];
+  cor[0] = '1';
 
-  printnl ("Looping");
-  char cmd[BUFFER_MAX_LENGTH];
   /* Main loop. */
-  
   while (1)
     {
   
@@ -51,9 +51,18 @@ void prompt()
       read (cmd);		        /* Read user command. */
 
       /* Process user command. */
-      if (compare(cmd, TIME_CMD)){time(); print(nl);}
+      if (compare(cmd, TIME_CMD)){
+        time();
+        print(nl);
+      }
+      else if (compare(cmd, COLOR_CMD)){
+        color(cor[0]);
+        cor[0]++;
+        printnl ("TyOS - A really tiny OS.");
+        print(nl);
+        printnl ("Prompt color updated");
+      }
       else if (compare(cmd, HELP_CMD)) help();       /* Command help. */
-//      else if (compare(cmd, GIVEUP_CMD)) give_up();
       else if (compare(cmd, QUIT_CMD))	halt();  /* Command quit. */
       else{
 	      print (cmd);		        /* Unkown command. */

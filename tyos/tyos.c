@@ -213,3 +213,65 @@ int __attribute__((fastcall, naked)) compare (char *s1, char *s2)
 
   return 0;                /* Bogus return to fulfill funtion's prototype.*/
 }
+
+
+/* Change color backgrounf and font
+*   Note1: this function does not check for pass option, then there is only one change cicle.
+*   Note2: this function doenst turn entire prompt colored, just a frame of it.
+* 
+*/
+
+void __attribute__((fastcall, naked)) color (char atual)
+{
+  if(atual == '1'){                         /* Aqua and Yellow            */
+    __asm__ volatile
+      (
+      " mov $0x06,    %%ah                ;" /* Scroll up.                */
+      " xor %%al,     %%al                ;" /* Clear entire screen.      */
+      " xor %%cx,     %%cx                ;" /* Upper-left corner.        */
+      " mov $0x184F,  %%dx                ;" /* Upper-right corner.       */
+      " mov $0x36,    %%bh                ;" /* Attribute (aqua/yellow).  */
+      " int $0x10                         ;" /* Call video BIOS service.  */
+      " ret                                " /* Return from function.     */
+      ::: "ax", "bx", "cx", "dx"		    /* Additional clobbered registers.*/
+      );
+  }else if(atual == '2'){                    /* Red and Green             */
+    __asm__ volatile
+      (
+      " mov $0x06,    %%ah                ;" /* Scroll up.                */
+      " xor %%al,     %%al                ;" /* Clear entire screen.      */
+      " xor %%cx,     %%cx                ;" /* Upper-left corner.        */
+      " mov $0x184F,  %%dx                ;" /* Upper-right corner.       */
+      " mov $0x42,    %%bh                ;" /* Attribute (red/green).    */
+      " int $0x10                         ;" /* Call video BIOS service.  */
+      " ret                                " /* Return from function.     */
+      ::: "ax", "bx", "cx", "dx"		    /* Additional clobbered registers.*/
+      );
+
+  }else if(atual == '3'){                    /* Grey and Black            */
+    __asm__ volatile
+      (
+      " mov $0x06,    %%ah                ;" /* Scroll up.                */
+      " xor %%al,     %%al                ;" /* Clear entire screen.      */
+      " xor %%cx,     %%cx                ;" /* Upper-left corner.        */
+      " mov $0x184F,  %%dx                ;" /* Upper-right corner.       */
+      " mov $0x70,    %%bh                ;" /* Attribute (grey/black).   */
+      " int $0x10                         ;" /* Call video BIOS service.  */
+      " ret                                " /* Return from function.     */
+      ::: "ax", "bx", "cx", "dx"		    /* Additional clobbered registers.*/
+      );
+
+  }else{                                     /* Default                   */
+    __asm__ volatile
+      (
+      " mov $0x06,    %%ah                ;" /* Scroll up.                */
+      " xor %%al,     %%al                ;" /* Clear entire screen.      */
+      " xor %%cx,     %%cx                ;" /* Upper-left corner.        */
+      " mov $0x184F,  %%dx                ;" /* Upper-right corner.       */
+      " mov $0x07,    %%bh                ;" /* Attribute (black/white).  */
+      " int $0x10                         ;" /* Call video BIOS service.  */
+      " ret                                " /* Return from function.     */
+      ::: "ax", "bx", "cx", "dx"		    /* Additional clobbered registers.*/
+      );
+  }return;
+}

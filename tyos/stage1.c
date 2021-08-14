@@ -34,6 +34,7 @@ int main()
 {
   clear();
   printnl ("TyOS - A really tiny OS.");
+  print(nl);
 
   load_stage2_block();
 
