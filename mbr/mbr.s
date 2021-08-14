@@ -16,7 +16,7 @@ print:
 	movl	%ecx, %edx
 	movl	%edx, %ebx
 #APP
-# 39 "mbr.c" 1
+# 41 "mbr.c" 1
 	        mov   $0x0e, %ah           ;        mov   $0x0, %si            ;loop7:                             ;        mov   (%bx, %si), %al    ;        cmp   $0x0, %al            ;        je    end7                 ;        int   $0x10                 ;        add   $0x1, %si            ;        jmp   loop7                ;end7:                              ;        ret                         ;
 # 0 "" 2
 #NO_APP
@@ -31,7 +31,7 @@ clear:
 .LFB1:
 	.cfi_startproc
 #APP
-# 64 "mbr.c" 1
+# 66 "mbr.c" 1
 	 mov $0x0600, %ax                 ; mov $0x07, %bh                   ; mov $0x0, %cx                    ; mov $0x184f, %dx                 ; int $0x10                         ; ret                                
 # 0 "" 2
 #NO_APP
@@ -48,7 +48,7 @@ read:
 	movl	%ecx, %edx
 	movl	%edx, %ebx
 #APP
-# 89 "mbr.c" 1
+# 91 "mbr.c" 1
 	   mov $0x0, %si               ;loop27:                         ;   movw $0X0, %ax              ;   int $0x16                    ;   movb %al, %es:(%bx, %si) ;   inc %si                     ;   cmp $0xd, %al               ;   mov   $0x0e, %ah            ;   int $0x10                    ;   jne loop27                   ; mov $0x0e, %ah                ; mov $0x0a, %al                ;   int $0x10                    ;   movb $0x0, -1(%bx, %si)    ;   ret                           
 # 0 "" 2
 #NO_APP
@@ -63,7 +63,7 @@ time:
 .LFB3:
 	.cfi_startproc
 #APP
-# 138 "mbr.c" 1
+# 142 "mbr.c" 1
 	 mov $0x04,  %ah  ; int $0x1A         ; mov	$0x0e,  %ah  ; mov %dl,   %al  ; shr $0x04,  %al  ; add $0x30,  %al  ; int $0x10          ; mov	%dl,   %al  ;	and	$0x0F,  %al  ;	add	$0x30,  %al  ; int $0x10         ; mov	$0x2F,  %al  ; int $0x10         ; mov %dh,   %al  ; shr $0x04,  %al  ; add $0x30,  %al  ; int $0x10          ; mov	%dh,   %al  ;	and	$0x0F,  %al  ;	add	$0x30,  %al  ; int $0x10         ; mov	$0x2F,  %al  ; int $0x10         ; mov %cl,   %al  ; shr $0x04,  %al  ; add $0x30,  %al  ; int $0x10          ; mov	%cl,   %al  ;	and	$0x0F,  %al  ;	add	$0x30,  %al  ; int $0x10         ; mov	$0x20,  %al  ; int $0x10         ; mov $0x02,  %ah  ; int $0x1A         ; mov	$0x0e,  %ah  ; mov %ch,   %al  ; shr $0x04,  %al  ; add $0x30,  %al  ; int $0x10          ; mov	%ch,   %al  ;	and	$0x0F,  %al  ;	add	$0x30,  %al  ; int $0x10         ; mov	$0x3A,  %al  ; int $0x10         ; mov %cl,   %al  ; shr $0x04,  %al  ; add $0x30,  %al  ; int $0x10          ; mov	%cl,   %al  ;	and	$0x0F,  %al  ;	add	$0x30,  %al  ; int $0x10          ; ret               ;
 # 0 "" 2
 #NO_APP
@@ -81,7 +81,7 @@ compare:
 	movl	%edx, %edi
 	movl	%ebx, %esi
 #APP
-# 226 "mbr.c" 1
+# 230 "mbr.c" 1
 	    mov $4, %cx   ;    mov $0x1, %ax     ;    cld                ;    repe  cmpsb        ;    jecxz  equal       ;    mov $0x0, %ax     ;equal:                 ;    ret                ;
 # 0 "" 2
 #NO_APP

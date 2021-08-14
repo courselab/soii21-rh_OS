@@ -141,85 +141,85 @@ int __attribute__((fastcall, naked)) time (void)
 {
   __asm__ volatile
     (
+/* Started read date system */
       " mov $0x04,  %%ah  ;"      /* Selected 'Read System' -> Date */
-      " int $0x1A         ;"
-      " mov	$0x0e,  %%ah  ;"
+      " int $0x1A         ;"      /* RTC services interrupt */
+      " mov	$0x0e,  %%ah  ;"      /* Video BIOS service */
 
-      " mov %%dl,   %%al  ;"
-      " shr $0x04,  %%al  ;"
-      " add $0x30,  %%al  ;"
+      " mov %%dl,   %%al  ;"      /* DL -> Contains Day info */
+      " shr $0x04,  %%al  ;"      /* Right Shift for decode MSD */
+      " add $0x30,  %%al  ;"      /* Convert int value to ASCII symbol */
       
-      " int $0x10          ;"
+      " int $0x10          ;"     /* Int for print MSD on screen */
 
-      " mov	%%dl,   %%al  ;"
-      "	and	$0x0F,  %%al  ;" 
-      "	add	$0x30,  %%al  ;"
+      " mov	%%dl,   %%al  ;"      /* Recover day data */
+      "	and	$0x0F,  %%al  ;"      /* AND 0x0F for decode LSD */ 
+      "	add	$0x30,  %%al  ;"      /* Convert int value to ASCII symbol */
 
-      " int $0x10         ;"
-      " mov	$0x2F,  %%al  ;"
-      " int $0x10         ;"
+      " int $0x10         ;"      /* Int for print LSD on screen */
+      " mov	$0x2F,  %%al  ;"      /* Load '/' on AL */
+      " int $0x10         ;"      /* Int for print symbol on screen */
 
-      " mov %%dh,   %%al  ;"
-      " shr $0x04,  %%al  ;"
-      " add $0x30,  %%al  ;"
+      " mov %%dh,   %%al  ;"      /* DH -> Contains Mounth info */
+      " shr $0x04,  %%al  ;"      /* Right Shift for decode MSD */
+      " add $0x30,  %%al  ;"      /* Convert int value to ASCII symbol */
       
-      " int $0x10          ;"
+      " int $0x10          ;"     /* Int for print MSD on screen */
 
-      " mov	%%dh,   %%al  ;"
-      "	and	$0x0F,  %%al  ;" 
-      "	add	$0x30,  %%al  ;"
+      " mov	%%dh,   %%al  ;"      /* Recover mounth data */
+      "	and	$0x0F,  %%al  ;"      /* AND 0x0F for decode LSD */ 
+      "	add	$0x30,  %%al  ;"      /* Convert int value to ASCII symbol */
 
-      " int $0x10         ;"
-      " mov	$0x2F,  %%al  ;"
-      " int $0x10         ;"
+      " int $0x10         ;"      /* Int for print LSD on screen */
+      " mov	$0x2F,  %%al  ;"      /* Load '/' on AL */
+      " int $0x10         ;"      /* Int for print symbol on screen */
 
-      " mov %%cl,   %%al  ;"
-      " shr $0x04,  %%al  ;"
-      " add $0x30,  %%al  ;"
+      " mov %%cl,   %%al  ;"      /* CL -> Contains Year info */
+      " shr $0x04,  %%al  ;"      /* Right Shift for decode MSD */
+      " add $0x30,  %%al  ;"      /* Convert int value to ASCII symbol */
       
-      " int $0x10          ;"
+      " int $0x10          ;"     /* Int for print MSD on screen */
 
-      " mov	%%cl,   %%al  ;"
-      "	and	$0x0F,  %%al  ;" 
-      "	add	$0x30,  %%al  ;"
-//////////////////
+      " mov	%%cl,   %%al  ;"      /* Recover year data */
+      "	and	$0x0F,  %%al  ;"      /* AND 0x0F for decode LSD */ 
+      "	add	$0x30,  %%al  ;"      /* Convert int value to ASCII symbol */
+/* Ended read date system */
+      " int $0x10         ;"      /* Int for print LSD on screen */
+      " mov	$0x20,  %%al  ;"      /* Load '<space>' on AL */
+      " int $0x10         ;"      /* Int for print symbol on screen */
+/* Started read time system */
+      " mov $0x02,  %%ah  ;"      /* Selected 'Read System' -> Time */
+      " int $0x1A         ;"      /* RTC services interrupt */
+      " mov	$0x0e,  %%ah  ;"      /* Video BIOS service */ 
 
-      " int $0x10         ;"
-      " mov	$0x20,  %%al  ;"
-      " int $0x10         ;"
-///////////////
-
-      " mov $0x02,  %%ah  ;"
-      " int $0x1A         ;"
-      " mov	$0x0e,  %%ah  ;"
-
-      " mov %%ch,   %%al  ;"
-      " shr $0x04,  %%al  ;"
-      " add $0x30,  %%al  ;"
+      " mov %%ch,   %%al  ;"      /* CH -> Contains Hour info */
+      " shr $0x04,  %%al  ;"      /* Right Shift for decode MSD */
+      " add $0x30,  %%al  ;"      /* Convert int value to ASCII symbol */
       
-      " int $0x10          ;"
+      " int $0x10          ;"     /* Int for print MSD on screen */
 
-      " mov	%%ch,   %%al  ;"
-      "	and	$0x0F,  %%al  ;" 
-      "	add	$0x30,  %%al  ;"
+      " mov	%%ch,   %%al  ;"      /* Recover hour data */
+      "	and	$0x0F,  %%al  ;"      /* AND 0x0F for decode LSD */ 
+      "	add	$0x30,  %%al  ;"      /* Convert int value to ASCII symbol */
 
-      " int $0x10         ;"
-      " mov	$0x3A,  %%al  ;"
-      " int $0x10         ;"
+      " int $0x10         ;"      /* Int for print LSD on screen */
+      " mov	$0x3A,  %%al  ;"      /* Load ':' on AL */
+      " int $0x10         ;"      /* Int for print symbol on screen */
 
-      " mov %%cl,   %%al  ;"
-      " shr $0x04,  %%al  ;"
-      " add $0x30,  %%al  ;"
+      " mov %%cl,   %%al  ;"      /* CL -> Contains Minute info */
+      " shr $0x04,  %%al  ;"      /* Right Shift for decode MSD */
+      " add $0x30,  %%al  ;"      /* Convert int value to ASCII symbol */
       
-      " int $0x10          ;"
+      " int $0x10          ;"     /* Int for print MSD on screen */
 
-      " mov	%%cl,   %%al  ;"
-      "	and	$0x0F,  %%al  ;" 
-      "	add	$0x30,  %%al  ;"
+      " mov	%%cl,   %%al  ;"      /* Recover minute data */
+      "	and	$0x0F,  %%al  ;"      /* AND 0x0F for decode LSD */ 
+      "	add	$0x30,  %%al  ;"      /* Convert int value to ASCII symbol */
 
-      " int $0x10          ;"
+      " int $0x10          ;"     /* Int for print LSD on screen */
+/* Ended read time system */
       " ret               ;"
-      ::: "ax", "cx", "dx" 	    // Aditional clobbered registers.
+      ::: "ax", "cx", "dx" 	      /* Aditional clobbered registers. */
      );
 }
 
@@ -238,13 +238,13 @@ int __attribute__((fastcall, naked)) compare (char *s1, char *s2)
       "equal:                 ;"
       "    ret                ;"
       :
-      : [len] "n" (BUFFER_MAX_LENGTH-1), /* [len] is a constant.   */
-	"S" (s1),		/* Ask gcc to store s1 in %si      */
-	"D" (s2)		/* Ask gcc to store s2 is %di      */
-      : "ax", "cx", "dx"	/* Additional clobbered registers. */
+      : [len] "n" (BUFFER_MAX_LENGTH-1),    /* [len] is a constant.   */
+	"S" (s1),		                              /* Ask gcc to store s1 in %si      */
+	"D" (s2)		                              /* Ask gcc to store s2 is %di      */
+      : "ax", "cx", "dx"	                  /* Additional clobbered registers. */
      );
 
-  return 0;                /* Bogus return to fulfill funtion's prototype.*/
+  return 0;                                 /* Bogus return to fulfill funtion's prototype.*/
 }
 
 /* Notes.

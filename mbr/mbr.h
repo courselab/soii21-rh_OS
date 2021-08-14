@@ -1,14 +1,15 @@
-/* <file> - <One-line note about this file>
+/* mbr.h - Header file (mbr.c)
  
-   Copyright (c) <YEAR>, <AUTHOR> 
+   Copyright (c) 2021, Hiago de Franco Moreira <https://github.com/hiagofranco>
+   Copyright (c) 2021, Renan Peres Martins <https://github.com/RenanPeres>
 
    This piece of software is a derivative work of SYSeg, by Monaco F. J.
    SYSeg is distributed under the license GNU GPL v3, and is available
    at the official repository https://www.gitlab.com/monaco/syseg.
 
-   This file is part of <PROJECT>.
+   This file is part of soii21-rh_OS.
 
-   <PROJECT> is free software: you can redistribute it and/or modify
+   soii21-rh_OS is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
@@ -27,61 +28,56 @@
 #ifndef MBR_H
 #define MBR_H
 
-/* 
- *  Core functions.
- */
+/* Core functions.
+*  Print    -> Print the null-terminated buffer on standard output.
+*  Printnl  -> Print the null-terminated string buffer on standard output, and a newline.
+*  Clear    -> Clear the screen.
+*  Read     -> Read standard input into fixed-length buffer (no check).
+*  Compare  -> Compare to strings up to BUFFER_MAX_LENGTH-1.
+*  Time     -> Read and print system date and time data.
+*/
 
-/* Print the null-terminated buffer on standard output. */
+/* Print    -> Print the null-terminated buffer on standard output. */
 
 void __attribute((naked, fastcall)) print (const char *buffer);
 
-/* Print the null-terminated string buffer on standard output, and a newline.*/
+/* Printnl  -> Print the null-terminated string buffer on standard output, and a newline. */
 
 extern char nl[];
 
 #define printnl(str) do{print(str); print (nl);}while(0)
 
-/* Clear the screen. */
+/* Clear    -> Clear the screen. */
 
 void __attribute__((naked, fastcall)) clear (void);
 
-/* Read standard input into fixed-length buffer (no check). */
+/* Read     -> Read standard input into fixed-length buffer (no check). */
 
 void __attribute__((naked, fastcall)) read (char *buffer);
 
-/* Compare to strings up to BUFFER_MAX_LENGTH-1. */
+/* Compare  -> Compare to strings up to BUFFER_MAX_LENGTH-1. */
 
 #define BUFFER_MAX_LENGTH 5
 
 int __attribute__((fastcall, naked)) compare (char *s1, char *s2);
 
-/* 
- * Commands.
- */
+/* Time     -> Read and print system date and time data. */
 
-/* Prints a help message.
+int __attribute__((fastcall, naked)) time (void);
 
-   -> Not Enough MBR Space :'(
-*/
-
-/* 
-#define HELP_CMD "help"
-
-void __attribute__((naked)) help (void);
-*/
-
-/* Prints system time.
+/* Define functions' call. 
+*  TIME_CMD 
+*  quit()
+*  QUIT_CMD
+*  PROMPT
+*  NOT_FOUND
 */
 
 #define  TIME_CMD "time"
 
-int __attribute__((fastcall, naked)) time (void);
-
-/* Quit. */
+#define quit() printnl("Bye!")
 
 #define QUIT_CMD "quit"
-
-#define quit() printnl("Bye!")
 
 #define PROMPT ">"
 
