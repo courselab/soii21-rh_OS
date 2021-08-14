@@ -2,10 +2,13 @@
  TyOS - Tiny Operating System
  ==============================================
 
- The contents of this directory are part of SYSeg,
- copyright (c) 2001 Monaco F. J. Monaco F. J.
- SYSeg is Free Software distributed under GNU GPL vr.3.
- Further information: http://gitlab.com/monaco/syseg
+ The contents of this directory are part of soii21-rh_OS,
+ Copyright (c) 2021, Hiago de Franco Moreira <https://github.com/hiagofranco>
+ Copyright (c) 2021, Renan Peres Martins <https://github.com/RenanPeres>
+
+ This piece of software is a derivative work of SYSeg, by Monaco F. J.
+ SYSeg is distributed under the license GNU GPL v3, and is available
+ at the official repository https://www.gitlab.com/monaco/syseg.
 
 
  Overview

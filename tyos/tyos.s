@@ -21,7 +21,7 @@ halt:
 	movl	$nl, %ecx
 	call	print
 #APP
-# 36 "tyos.c" 1
+# 34 "tyos.c" 1
 	loop15:           ;        hlt       ;        jmp loop15;
 # 0 "" 2
 #NO_APP
@@ -41,7 +41,7 @@ read:
 	movl	%ecx, %edx
 	movl	%edx, %ebx
 #APP
-# 59 "tyos.c" 1
+# 57 "tyos.c" 1
 	   mov $0x0, %si               ;loop30:                         ;   movw $0X0, %ax              ;   int $0x16                    ;   movb %al, %es:(%bx, %si) ;   inc %si                     ;   cmp $0xd, %al               ;   mov   $0x0e, %ah            ;   int $0x10                    ;   jne loop30                   ; mov $0x0e, %ah                ; mov $0x0a, %al                ;   int $0x10                    ;   movb $0x0, -1(%bx, %si)    ;   ret                           
 # 0 "" 2
 #NO_APP
@@ -51,12 +51,24 @@ read:
 .LFE1:
 	.size	read, .-read
 	.section	.rodata
+	.align 4
 .LC1:
-	.string	"Help:"
+	.string	" ~~~~~~~~~~~~~~~~~~ Help Center: ~~~~~~~~~~~~~~~~~~ "
+	.align 4
 .LC2:
-	.string	"time:"
+	.string	"WHat time is it?                              -> try: 'teste'"
+	.align 4
 .LC3:
-	.string	"quit:"
+	.string	"Change my OS skin!                            -> try: 'color'"
+	.align 4
+.LC4:
+	.string	"I will GIVE UP! I DON'T LIKE THIS OS!         -> try: 'giveup'"
+	.align 4
+.LC5:
+	.string	"So tired, I need to sleep!                    -> try: 'quit'"
+	.align 4
+.LC6:
+	.string	"What should I try? (I bet you know this one)  -> try: 'help'"
 	.text
 	.globl	help
 	.type	help, @function
@@ -64,6 +76,8 @@ help:
 .LFB2:
 	.cfi_startproc
 	movl	$.LC1, %ecx
+	call	print
+	movl	$nl, %ecx
 	call	print
 	movl	$nl, %ecx
 	call	print
@@ -75,8 +89,22 @@ help:
 	call	print
 	movl	$nl, %ecx
 	call	print
+	movl	$.LC4, %ecx
+	call	print
+	movl	$nl, %ecx
+	call	print
+	movl	$.LC5, %ecx
+	call	print
+	movl	$nl, %ecx
+	call	print
+	movl	$nl, %ecx
+	call	print
+	movl	$.LC6, %ecx
+	call	print
+	movl	$nl, %ecx
+	call	print
 #APP
-# 103 "tyos.c" 1
+# 101 "tyos.c" 1
 	ret
 # 0 "" 2
 #NO_APP
@@ -91,7 +119,7 @@ time:
 .LFB3:
 	.cfi_startproc
 #APP
-# 111 "tyos.c" 1
+# 109 "tyos.c" 1
 	 mov $0x04,  %ah  ; int $0x1A         ; mov	$0x0e,  %ah  ; mov %dl,   %al  ; shr $0x04,  %al  ; add $0x30,  %al  ; int $0x10          ; mov	%dl,   %al  ;	and	$0x0F,  %al  ;	add	$0x30,  %al  ; int $0x10         ; mov	$0x2F,  %al  ; int $0x10         ; mov %dh,   %al  ; shr $0x04,  %al  ; add $0x30,  %al  ; int $0x10          ; mov	%dh,   %al  ;	and	$0x0F,  %al  ;	add	$0x30,  %al  ; int $0x10         ; mov	$0x2F,  %al  ; int $0x10         ; mov %cl,   %al  ; shr $0x04,  %al  ; add $0x30,  %al  ; int $0x10          ; mov	%cl,   %al  ;	and	$0x0F,  %al  ;	add	$0x30,  %al  ; int $0x10         ; mov	$0x20,  %al  ; int $0x10         ; mov $0x02,  %ah  ; int $0x1A         ; mov	$0x0e,  %ah  ; mov %ch,   %al  ; shr $0x04,  %al  ; add $0x30,  %al  ; int $0x10          ; mov	%ch,   %al  ;	and	$0x0F,  %al  ;	add	$0x30,  %al  ; int $0x10         ; mov	$0x3A,  %al  ; int $0x10         ; mov %cl,   %al  ; shr $0x04,  %al  ; add $0x30,  %al  ; int $0x10          ; mov	%cl,   %al  ;	and	$0x0F,  %al  ;	add	$0x30,  %al  ; int $0x10          ; ret               ;
 # 0 "" 2
 #NO_APP
@@ -109,7 +137,7 @@ compare:
 	movl	%edx, %edi
 	movl	%ebx, %esi
 #APP
-# 199 "tyos.c" 1
+# 197 "tyos.c" 1
 	    mov $4, %cx   ;    mov $0x1, %ax     ;    cld                ;    repe  cmpsb        ;    jecxz  equal       ;    mov $0x0, %ax     ;equal:                 ;    ret                ;
 # 0 "" 2
 #NO_APP

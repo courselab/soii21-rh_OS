@@ -1,14 +1,15 @@
-/* <file> - <One-line note about this file>
+/* tyos.c - Kernel functions stored on alocated memory
  
-   Copyright (c) <YEAR>, <AUTHOR> 
+   Copyright (c) 2021, Hiago de Franco Moreira <https://github.com/hiagofranco>
+   Copyright (c) 2021, Renan Peres Martins <https://github.com/RenanPeres>
 
    This piece of software is a derivative work of SYSeg, by Monaco F. J.
    SYSeg is distributed under the license GNU GPL v3, and is available
    at the official repository https://www.gitlab.com/monaco/syseg.
 
-   This file is part of <PROJECT>.
+   This file is part of soii21-rh_OS.
 
-   <PROJECT> is free software: you can redistribute it and/or modify
+   soii21-rh_OS is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
@@ -25,9 +26,6 @@
 
 
 #include <tyos.h>
-#include <extra.h>
-
-
 
 void halt()
 {
@@ -42,7 +40,7 @@ void halt()
      );
 }
 
-////////////////////////Funções do mbr
+/* MBR implemented functions
 
 /* Read string from terminal into buffer. 
 
@@ -87,108 +85,108 @@ void __attribute__((fastcall, naked)) read (char *buffer)
   
 }
 
-
-/*  Output a help(-less) message. 
-
-    -> Not Enough MBR Space :'(
-*/
+/*  Output a (almost) help message. */
 
 void __attribute__((naked)) help (void)
 {
-  printnl ("Help:");
-  printnl ("time:");
-  printnl ("quit:");
-
+  printnl (" ~~~~~~~~~~~~~~~~~~ Help Center: ~~~~~~~~~~~~~~~~~~ ");
+  print(nl);
+  printnl ("WHat time is it?                              -> try: 'teste'");
+  printnl ("Change my OS skin!                            -> try: 'color'");
+  printnl ("I will GIVE UP! I DON'T LIKE THIS OS!         -> try: 'giveup'");
+  printnl ("So tired, I need to sleep!                    -> try: 'quit'");
+   print(nl);
+  printnl ("What should I try? (I bet you know this one)  -> try: 'help'");
 
   __asm__ ("ret");   	   // Naked functions lack return.
 
 }
 
-/* Show the system Time by RTC BIOS interupt */
+/* Read system BIOS date and time and print formated buffer on screen */
 
 int __attribute__((fastcall, naked)) time (void)
 {
   __asm__ volatile
     (
-      " mov $0x04,  %%ah  ;"
-      " int $0x1A         ;"
-      " mov	$0x0e,  %%ah  ;"
+/* Started read date system */
+      " mov $0x04,  %%ah  ;"      /* Selected 'Read System' -> Date */
+      " int $0x1A         ;"      /* RTC services interrupt */
+      " mov	$0x0e,  %%ah  ;"      /* Video BIOS service */
 
-      " mov %%dl,   %%al  ;"
-      " shr $0x04,  %%al  ;"
-      " add $0x30,  %%al  ;"
+      " mov %%dl,   %%al  ;"      /* DL -> Contains Day info */
+      " shr $0x04,  %%al  ;"      /* Right Shift for decode MSD */
+      " add $0x30,  %%al  ;"      /* Convert int value to ASCII symbol */
       
-      " int $0x10          ;"
+      " int $0x10          ;"     /* Int for print MSD on screen */
 
-      " mov	%%dl,   %%al  ;"
-      "	and	$0x0F,  %%al  ;" 
-      "	add	$0x30,  %%al  ;"
+      " mov	%%dl,   %%al  ;"      /* Recover day data */
+      "	and	$0x0F,  %%al  ;"      /* AND 0x0F for decode LSD */ 
+      "	add	$0x30,  %%al  ;"      /* Convert int value to ASCII symbol */
 
-      " int $0x10         ;"
-      " mov	$0x2F,  %%al  ;"
-      " int $0x10         ;"
+      " int $0x10         ;"      /* Int for print LSD on screen */
+      " mov	$0x2F,  %%al  ;"      /* Load '/' on AL */
+      " int $0x10         ;"      /* Int for print symbol on screen */
 
-      " mov %%dh,   %%al  ;"
-      " shr $0x04,  %%al  ;"
-      " add $0x30,  %%al  ;"
+      " mov %%dh,   %%al  ;"      /* DH -> Contains Mounth info */
+      " shr $0x04,  %%al  ;"      /* Right Shift for decode MSD */
+      " add $0x30,  %%al  ;"      /* Convert int value to ASCII symbol */
       
-      " int $0x10          ;"
+      " int $0x10          ;"     /* Int for print MSD on screen */
 
-      " mov	%%dh,   %%al  ;"
-      "	and	$0x0F,  %%al  ;" 
-      "	add	$0x30,  %%al  ;"
+      " mov	%%dh,   %%al  ;"      /* Recover mounth data */
+      "	and	$0x0F,  %%al  ;"      /* AND 0x0F for decode LSD */ 
+      "	add	$0x30,  %%al  ;"      /* Convert int value to ASCII symbol */
 
-      " int $0x10         ;"
-      " mov	$0x2F,  %%al  ;"
-      " int $0x10         ;"
+      " int $0x10         ;"      /* Int for print LSD on screen */
+      " mov	$0x2F,  %%al  ;"      /* Load '/' on AL */
+      " int $0x10         ;"      /* Int for print symbol on screen */
 
-      " mov %%cl,   %%al  ;"
-      " shr $0x04,  %%al  ;"
-      " add $0x30,  %%al  ;"
+      " mov %%cl,   %%al  ;"      /* CL -> Contains Year info */
+      " shr $0x04,  %%al  ;"      /* Right Shift for decode MSD */
+      " add $0x30,  %%al  ;"      /* Convert int value to ASCII symbol */
       
-      " int $0x10          ;"
+      " int $0x10          ;"     /* Int for print MSD on screen */
 
-      " mov	%%cl,   %%al  ;"
-      "	and	$0x0F,  %%al  ;" 
-      "	add	$0x30,  %%al  ;"
-//////////////////
+      " mov	%%cl,   %%al  ;"      /* Recover year data */
+      "	and	$0x0F,  %%al  ;"      /* AND 0x0F for decode LSD */ 
+      "	add	$0x30,  %%al  ;"      /* Convert int value to ASCII symbol */
+/* Ended read date system */
+      " int $0x10         ;"      /* Int for print LSD on screen */
+      " mov	$0x20,  %%al  ;"      /* Load '<space>' on AL */
+      " int $0x10         ;"      /* Int for print symbol on screen */
+/* Started read time system */
+      " mov $0x02,  %%ah  ;"      /* Selected 'Read System' -> Time */
+      " int $0x1A         ;"      /* RTC services interrupt */
+      " mov	$0x0e,  %%ah  ;"      /* Video BIOS service */ 
 
-      " int $0x10         ;"
-      " mov	$0x20,  %%al  ;"
-      " int $0x10         ;"
-///////////////
-
-      " mov $0x02,  %%ah  ;"
-      " int $0x1A         ;"
-      " mov	$0x0e,  %%ah  ;"
-
-      " mov %%ch,   %%al  ;"
-      " shr $0x04,  %%al  ;"
-      " add $0x30,  %%al  ;"
+      " mov %%ch,   %%al  ;"      /* CH -> Contains Hour info */
+      " shr $0x04,  %%al  ;"      /* Right Shift for decode MSD */
+      " add $0x30,  %%al  ;"      /* Convert int value to ASCII symbol */
       
-      " int $0x10          ;"
+      " int $0x10          ;"     /* Int for print MSD on screen */
 
-      " mov	%%ch,   %%al  ;"
-      "	and	$0x0F,  %%al  ;" 
-      "	add	$0x30,  %%al  ;"
+      " mov	%%ch,   %%al  ;"      /* Recover hour data */
+      "	and	$0x0F,  %%al  ;"      /* AND 0x0F for decode LSD */ 
+      "	add	$0x30,  %%al  ;"      /* Convert int value to ASCII symbol */
 
-      " int $0x10         ;"
-      " mov	$0x3A,  %%al  ;"
-      " int $0x10         ;"
+      " int $0x10         ;"      /* Int for print LSD on screen */
+      " mov	$0x3A,  %%al  ;"      /* Load ':' on AL */
+      " int $0x10         ;"      /* Int for print symbol on screen */
 
-      " mov %%cl,   %%al  ;"
-      " shr $0x04,  %%al  ;"
-      " add $0x30,  %%al  ;"
+      " mov %%cl,   %%al  ;"      /* CL -> Contains Minute info */
+      " shr $0x04,  %%al  ;"      /* Right Shift for decode MSD */
+      " add $0x30,  %%al  ;"      /* Convert int value to ASCII symbol */
       
-      " int $0x10          ;"
+      " int $0x10          ;"     /* Int for print MSD on screen */
 
-      " mov	%%cl,   %%al  ;"
-      "	and	$0x0F,  %%al  ;" 
-      "	add	$0x30,  %%al  ;"
+      " mov	%%cl,   %%al  ;"      /* Recover minute data */
+      "	and	$0x0F,  %%al  ;"      /* AND 0x0F for decode LSD */ 
+      "	add	$0x30,  %%al  ;"      /* Convert int value to ASCII symbol */
 
-      " int $0x10          ;"
+      " int $0x10          ;"     /* Int for print LSD on screen */
+/* Ended read time system */
       " ret               ;"
-      ::: "ax", "cx", "dx" 	    // Aditional clobbered registers.
+      ::: "ax", "cx", "dx" 	      /* Aditional clobbered registers. */
      );
 }
 
